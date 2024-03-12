@@ -1,35 +1,27 @@
 package ru.netology.domain;
 import java.util.ArrayList;
 import java.util.List;
+
+
 public class Game {
 
-    private boolean isRegister = false;
-    private List<Player> players = new ArrayList<>();
+
+    public List<Player> players = new ArrayList<>();
 
 
-
-    public void register(String name, int id, int strength) {
-        Player newPlayer = new Player();
-        newPlayer.setName(name);
-        newPlayer.setId(id);
-        newPlayer.setStrength(strength);
-        players.add(newPlayer);
-        isRegister = true;
+    public void register(Player player) {
+        player.setIsRegister(true);
+        players.add(player);
     }
 
+    public boolean isRegister()
 
-    public List<Player> isRegistered(Player player) {
 
-        if (isRegister == true) {
-            players.add(player);
-        }
-        return players;
-    }
+    public int round(String playerName1, String playerName2) {
 
-    public int round (String playerName1, String playerName2) {
         NotRegisteredException exception = new NotRegisteredException
                 ("Турнир невозможен из-за участия незарегистрированного игрока");
-        if (isRegister == false) {
+        if (player.getIsRegister() == false) {
             throw exception;
         }
         Player player1 = new Player();
@@ -46,8 +38,13 @@ public class Game {
 
     }
 
+    public String getInfoByName(String name){
+        for (Player player : players){
+            if (name == player.getName()){
+                return player.getPlayerInfo();
+            }
+        } return null;
 
-
-
+    }
 
 }
