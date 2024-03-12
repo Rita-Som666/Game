@@ -4,19 +4,22 @@ import java.util.List;
 public class Game {
 
     private boolean isRegister = false;
+    private List<Player> players = new ArrayList<>();
 
 
 
-    public void register(String name, int id) {
-        Player player = new Player();
-        player.setName(name);
-        player.setId(id);
+    public void register(String name, int id, int strength) {
+        Player newPlayer = new Player();
+        newPlayer.setName(name);
+        newPlayer.setId(id);
+        newPlayer.setStrength(strength);
+        players.add(newPlayer);
         isRegister = true;
     }
 
 
     public List<Player> isRegistered(Player player) {
-        List<Player> players = new ArrayList<>();
+
         if (isRegister == true) {
             players.add(player);
         }
@@ -33,17 +36,17 @@ public class Game {
         player1.setName(playerName1);
         Player player2 = new Player();
         player2.setName(playerName2);
-        if (player1.strength > player2.strength) {
+        if (player1.getStrength() > player2.getStrength()) {
             return 1;
         }
-        if (player2.strength > player1.strength) {
+        if (player2.getStrength() > player1.getStrength()) {
             return 2;
         } else return 0;
 
 
     }
 
-    public
+
 
 
 
