@@ -14,30 +14,34 @@ public class Game {
         players.add(player);
     }
 
-    public boolean isRegister()
+
 
 
     public int round(String playerName1, String playerName2) {
 
+
         NotRegisteredException exception = new NotRegisteredException
                 ("Турнир невозможен из-за участия незарегистрированного игрока");
-        if (player.getIsRegister() == false) {
-            throw exception;
-        }
-        Player player1 = new Player();
-        player1.setName(playerName1);
-        Player player2 = new Player();
-        player2.setName(playerName2);
-        if (player1.getStrength() > player2.getStrength()) {
-            return 1;
-        }
-        if (player2.getStrength() > player1.getStrength()) {
-            return 2;
-        } else return 0;
+        for (Player player : players) {
+            if (player.getName() == playerName1 && player.getName() == playerName2) {
+                Player player1 = new Player();
+                player1.setName(playerName1);
+                Player player2 = new Player();
+                player2.setName(playerName2);
+                if (player1.getStrength() > player2.getStrength()) {
+                    return 1;
+                }
+                if (player2.getStrength() > player1.getStrength()) {
+                    return 2;
+                } else {
+                    return 0;
+                }
 
+            } else throw exception;
+
+        }
 
     }
-
     public String getInfoByName(String name){
         for (Player player : players){
             if (name == player.getName()){

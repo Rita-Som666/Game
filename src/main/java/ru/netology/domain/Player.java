@@ -11,7 +11,7 @@ public class Player {
     private boolean isRegister = false;
 
     public void setIsRegister(boolean isRegister){this.isRegister = isRegister;}
-    public boolean isRegister(){return isRegister;}
+    public boolean getIsRegister(){return isRegister;}
 
 
 
