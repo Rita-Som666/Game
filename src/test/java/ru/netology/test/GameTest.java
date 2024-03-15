@@ -1,9 +1,12 @@
 package ru.netology.test;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Game;
+import ru.netology.domain.NotRegisteredException;
 import ru.netology.domain.Player;
 
+import java.io.NotActiveException;
 import java.util.List;
 
 
@@ -20,25 +23,26 @@ public class GameTest {
             320
 
     );
+
+
     Player player3 = new Player(
             333,
-            "Паша",
-            5
+            "Юля",
+            320
     );
 
     Game game = new Game();
 
     @Test
-    public void shouldRegister(){
+    public void shouldRegister() {
         game.register(player1);
         Assertions.assertTrue(player1.getIsRegister());
-
 
 
     }
 
     @Test
-    public void shouldAddInList(){
+    public void shouldAddInList() {
         game.register(player1);
         game.register(player2);
         game.register(player3);
@@ -49,7 +53,7 @@ public class GameTest {
     }
 
     @Test
-    public void shouldRoundAndReturn1(){
+    public void shouldRoundAndReturn1() {
         game.register(player1);
         game.register(player2);
         int actual = game.round("Арина", "Иван");
@@ -57,5 +61,81 @@ public class GameTest {
         Assertions.assertEquals(expected, actual);
 
     }
+
+    @Test
+    public void shouldRoundAndReturn2() {
+        game.register(player1);
+        game.register(player2);
+        int actual = game.round("Иван", "Арина");
+        int expected = 2;
+        Assertions.assertEquals(expected, actual);
+
+    }
+
+    @Test
+    public void shouldRoundAndReturn0() {
+        game.register(player2);
+        game.register(player3);
+        int actual = game.round("Арина", "Юля");
+        int expected = 0;
+        Assertions.assertEquals(expected, actual);
+
+    }
+
+    @Test
+    public void shouldTrowIfTwoPlayersNotRegister() {
+        Assertions.assertThrows(NotRegisteredException.class, () -> {
+            game.round("Арина", "Иван");
+        });
+
+    }
+
+    @Test
+    public void shouldTrowIfPlayer1NotRegister() {
+        game.register(player2);
+        Assertions.assertThrows(NotRegisteredException.class, () -> {
+            game.round("Арина", "Иван");
+        });
+    }
+
+    @Test
+    public void shouldTrowIfPlayer2NotRegister() {
+        game.register(player1);
+        Assertions.assertThrows(NotRegisteredException.class, () -> {
+            game.round("Арина", "Иван");
+        });
+    }
+
+    @Test
+    public void shouldReturnEmptyList() {
+        List<Player> expected = List.of();
+        List<Player> actual = game.players;
+        Assertions.assertIterableEquals(expected, actual);
+    }
+
+    @Test
+    public void ShouldGetInfo() {
+        game.register(player1);
+        String actual = game.getInfoByName("Иван");
+        String expected = "ID: " + player1.getId() + ", Имя: " + player1.getName() + ", Сила: " + player1.getStrength();
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldReturnNothingNotSearch() {
+        String expected = "Ничего не найдено";
+        String actual = game.getInfoByName("Иван");
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldReturnNothingNotSearch2() {
+        game.register(player1);
+        String expected = "Ничего не найдено";
+        String actual = game.getInfoByName("Арина");
+        Assertions.assertEquals(expected, actual);
+    }
+
+
 }
 

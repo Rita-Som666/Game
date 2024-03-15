@@ -1,4 +1,5 @@
 package ru.netology.domain;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,40 +16,48 @@ public class Game {
     }
 
 
-
-
     public int round(String playerName1, String playerName2) {
 
 
         NotRegisteredException exception = new NotRegisteredException
                 ("Турнир невозможен из-за участия незарегистрированного игрока");
+        Player player1 = null;
+        Player player2 = null;
         for (Player player : players) {
-            if (player.getName() == playerName1 && player.getName() == playerName2) {
-                Player player1 = new Player();
-                player1.setName(playerName1);
-                Player player2 = new Player();
-                player2.setName(playerName2);
-                if (player1.getStrength() > player2.getStrength()) {
-                    return 1;
-                }
-                if (player2.getStrength() > player1.getStrength()) {
-                    return 2;
-                } else {
-                    return 0;
-                }
-
-            } else throw exception;
+            if (player.getName() == playerName1) {
+                player1 = player;
+            }
+            if (player.getName() == playerName2) {
+                player2 = player;
+            }
 
         }
+        if (player1 == null) {
+            throw exception;
+        }
+        if (player2 == null) {
+            throw exception;
+        }
+        if (player1.getStrength() > player2.getStrength()) {
+            return 1;
+        }
+        if (player2.getStrength() > player1.getStrength()) {
+            return 2;
+        } else return 0;
+
 
     }
-    public String getInfoByName(String name){
-        for (Player player : players){
-            if (name == player.getName()){
+
+    public String getInfoByName(String name) {
+        String s = "Ничего не найдено";
+        for (Player player : players) {
+            if (name == player.getName()) {
                 return player.getPlayerInfo();
+
             }
-        } return null;
+        }
+        return s;
+
 
     }
-
 }
