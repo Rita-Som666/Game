@@ -1,18 +1,20 @@
 package ru.netology.domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class Game {
 
 
-    public List<Player> players = new ArrayList<>();
+    // public List<Player> players = new ArrayList<>();
+    public HashMap<String, Player> players = new HashMap<>();
 
 
-    public void register(Player player) {
+    public void register(String name, Player player) {
         player.setIsRegister(true);
-        players.add(player);
+        players.put(name, player);
     }
 
 
@@ -21,17 +23,9 @@ public class Game {
 
         NotRegisteredException exception = new NotRegisteredException
                 ("Турнир невозможен из-за участия незарегистрированного игрока");
-        Player player1 = null;
-        Player player2 = null;
-        for (Player player : players) {
-            if (player.getName() == playerName1) {
-                player1 = player;
-            }
-            if (player.getName() == playerName2) {
-                player2 = player;
-            }
+        Player player1 = players.get(playerName1);
+        Player player2 = players.get(playerName2);
 
-        }
         if (player1 == null) {
             throw exception;
         }
@@ -49,15 +43,15 @@ public class Game {
     }
 
     public String getInfoByName(String name) {
+        Player player = players.get(name);
         String s = "Ничего не найдено";
-        for (Player player : players) {
-            if (name == player.getName()) {
-                return player.getPlayerInfo();
+        if (player != null) {
+            return player.getPlayerInfo();
 
-            }
+        } else {
+            return s;
         }
-        return s;
-
-
     }
+
+
 }
