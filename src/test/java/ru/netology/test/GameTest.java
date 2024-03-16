@@ -7,7 +7,9 @@ import ru.netology.domain.NotRegisteredException;
 import ru.netology.domain.Player;
 
 import java.io.NotActiveException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class GameTest {
@@ -35,7 +37,7 @@ public class GameTest {
 
     @Test
     public void shouldRegister() {
-        game.register(player1);
+        game.register("Иван", player1);
         Assertions.assertTrue(player1.getIsRegister());
 
 
@@ -43,19 +45,23 @@ public class GameTest {
 
     @Test
     public void shouldAddInList() {
-        game.register(player1);
-        game.register(player2);
-        game.register(player3);
+        game.register("Иван", player1);
+        game.register("Арина", player2);
+        game.register("Юля", player3);
 
-        List<Player> expected = List.of(player1, player2, player3);
-        List<Player> actual = game.players;
-        Assertions.assertIterableEquals(expected, actual);
+        HashMap<String, Player> expected = new HashMap<>();
+        expected.put("Иван", player1);
+        expected.put("Арина", player2);
+        expected.put("Юля", player3);
+        HashMap<String, Player> actual = game.players;
+        ;
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
     public void shouldRoundAndReturn1() {
-        game.register(player1);
-        game.register(player2);
+        game.register("Иван", player1);
+        game.register("Арина", player2);
         int actual = game.round("Арина", "Иван");
         int expected = 1;
         Assertions.assertEquals(expected, actual);
@@ -64,8 +70,8 @@ public class GameTest {
 
     @Test
     public void shouldRoundAndReturn2() {
-        game.register(player1);
-        game.register(player2);
+        game.register("Иван", player1);
+        game.register("Арина", player2);
         int actual = game.round("Иван", "Арина");
         int expected = 2;
         Assertions.assertEquals(expected, actual);
@@ -74,8 +80,8 @@ public class GameTest {
 
     @Test
     public void shouldRoundAndReturn0() {
-        game.register(player2);
-        game.register(player3);
+        game.register("Арина", player2);
+        game.register("Юля", player3);
         int actual = game.round("Арина", "Юля");
         int expected = 0;
         Assertions.assertEquals(expected, actual);
@@ -92,7 +98,7 @@ public class GameTest {
 
     @Test
     public void shouldTrowIfPlayer1NotRegister() {
-        game.register(player2);
+        game.register("Арина", player2);
         Assertions.assertThrows(NotRegisteredException.class, () -> {
             game.round("Арина", "Иван");
         });
@@ -100,7 +106,7 @@ public class GameTest {
 
     @Test
     public void shouldTrowIfPlayer2NotRegister() {
-        game.register(player1);
+        game.register("Иван", player1);
         Assertions.assertThrows(NotRegisteredException.class, () -> {
             game.round("Арина", "Иван");
         });
@@ -108,14 +114,14 @@ public class GameTest {
 
     @Test
     public void shouldReturnEmptyList() {
-        List<Player> expected = List.of();
-        List<Player> actual = game.players;
-        Assertions.assertIterableEquals(expected, actual);
+        HashMap<String, Player> expected = new HashMap<>();
+        HashMap<String, Player> actual = game.players;
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
     public void ShouldGetInfo() {
-        game.register(player1);
+        game.register("Иван", player1);
         String actual = game.getInfoByName("Иван");
         String expected = "ID: " + player1.getId() + ", Имя: " + player1.getName() + ", Сила: " + player1.getStrength();
         Assertions.assertEquals(expected, actual);
@@ -130,7 +136,7 @@ public class GameTest {
 
     @Test
     public void shouldReturnNothingNotSearch2() {
-        game.register(player1);
+        game.register("Иван", player1);
         String expected = "Ничего не найдено";
         String actual = game.getInfoByName("Арина");
         Assertions.assertEquals(expected, actual);
